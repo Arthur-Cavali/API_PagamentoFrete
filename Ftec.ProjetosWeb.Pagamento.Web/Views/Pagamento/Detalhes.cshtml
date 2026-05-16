@@ -1,0 +1,94 @@
+@model Ftec.ProjetosWeb.Pagamento.Web.Models.PagamentoViewModel
+@{
+    ViewData["Title"] = "Detalhes do Pagamento";
+    string[] statusNomes = { "Pendente", "Processando", "Pago", "Recusado", "Cancelado" };
+    string[] metodoNomes = { "Cartão de Crédito", "Cartão de Débito", "Pix", "Boleto" };
+    string statusNome = (Model.StatusPagamento >= 1 && Model.StatusPagamento <= statusNomes.Length) ? statusNomes[Model.StatusPagamento - 1] : Model.StatusPagamento.ToString();
+    string metodoNome = (Model.MetodoPagamento >= 1 && Model.MetodoPagamento <= metodoNomes.Length) ? metodoNomes[Model.MetodoPagamento - 1] : Model.MetodoPagamento.ToString();
+}
+
+<h2>Detalhes do Pagamento</h2>
+
+@if (TempData["Sucesso"] is not null)
+{
+    <div class="alert alert-success">@TempData["Sucesso"]</div>
+}
+@if (TempData["Erro"] is not null)
+{
+    <div class="alert alert-danger">@TempData["Erro"]</div>
+}
+
+<div class="card mb-4">
+    <div class="card-header fw-bold">Informações</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9"><code>@Model.PagamentoId</code></dd>
+            <dt class="col-sm-3">Pedido</dt>
+            <dd class="col-sm-9"><code>@Model.PedidoId</code></dd>
+            <dt class="col-sm-3">CPF Cliente</dt>
+            <dd class="col-sm-9">@Model.CpfCliente</dd>
+            <dt class="col-sm-3">Valor Produtos</dt>
+            <dd class="col-sm-9">R$ @Model.ValorProdutos.ToString("F2")</dd>
+            <dt class="col-sm-3">Valor Frete</dt>
+            <dd class="col-sm-9">R$ @Model.ValorFrete.ToString("F2")</dd>
+            <dt class="col-sm-3">Valor Total</dt>
+            <dd class="col-sm-9"><strong>R$ @Model.ValorTotal.ToString("F2")</strong></dd>
+            @if (Model.MetodoPagamento == 1)
+            {
+                <dt class="col-sm-3">Parcelas</dt>
+                <dd class="col-sm-9">
+                    @if (Model.NumeroParcelas <= 1)
+                    {
+                        <span>1x de R$ @Model.ValorParcela.ToString("F2") (à vista, sem juros)</span>
+                    }
+                    else if (Model.NumeroParcelas <= 6)
+                    {
+                        <span>@Model.NumeroParcelas x de R$ @Model.ValorParcela.ToString("F2") <span class="badge bg-success">Sem juros</span></span>
+                    }
+                    else
+                    {
+                        <span>@Model.NumeroParcelas x de R$ @Model.ValorParcela.ToString("F2") <span class="badge bg-warning text-dark">Com juros 2,2% a.m.</span></span>
+                    }
+                </dd>
+            }
+            <dt class="col-sm-3">Método</dt>
+            <dd class="col-sm-9">@metodoNome</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.StatusPagamento == 3 ? "bg-success" : Model.StatusPagamento == 4 || Model.StatusPagamento == 5 ? "bg-danger" : "bg-warning text-dark")">
+                    @statusNome
+                </span>
+            </dd>
+            <dt class="col-sm-3">Criado em</dt>
+            <dd class="col-sm-9">@Model.CriadoEm.ToString("dd/MM/yyyy HH:mm")</dd>
+            @if (Model.DataPagamento.HasValue)
+            {
+                <dt class="col-sm-3">Data Pagamento</dt>
+                <dd class="col-sm-9">@Model.DataPagamento.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<div class="d-flex gap-2">
+    @if (Model.StatusPagamento == 1)
+    {
+        <form asp-action="Aprovar" method="post" class="d-inline">
+            <input type="hidden" name="id" value="@Model.PagamentoId" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success" onclick="return confirm('Confirmar aprovação deste pagamento?')">Aprovar Pagamento</button>
+        </form>
+        <form asp-action="Recusar" method="post" class="d-inline">
+            <input type="hidden" name="id" value="@Model.PagamentoId" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-warning" onclick="return confirm('Recusar este pagamento?')">Recusar Pagamento</button>
+        </form>
+        <form asp-action="Cancelar" method="post" class="d-inline">
+            <input type="hidden" name="id" value="@Model.PagamentoId" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Cancelar este pagamento?')">Cancelar</button>
+        </form>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

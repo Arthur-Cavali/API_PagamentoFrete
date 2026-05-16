@@ -1,0 +1,54 @@
+@model List<Ftec.ProjetosWeb.Pagamento.Web.Models.PagamentoViewModel>
+@{
+    ViewData["Title"] = "Pagamentos";
+    string[] statusNomes  = { "Pendente", "Processando", "Pago", "Recusado", "Cancelado" };
+    string[] metodoNomes  = { "Cartão de Crédito", "Cartão de Débito", "Pix", "Boleto" };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Pagamentos</h2>
+    <a asp-action="Criar" class="btn btn-primary">+ Novo Pagamento</a>
+</div>
+
+@if (TempData["Sucesso"] is not null)
+{
+    <div class="alert alert-success">@TempData["Sucesso"]</div>
+}
+@if (TempData["Erro"] is not null)
+{
+    <div class="alert alert-danger">@TempData["Erro"]</div>
+}
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Pedido</th>
+            <th>CPF Cliente</th>
+            <th>Valor Total</th>
+            <th>Método</th>
+            <th>Status</th>
+            <th>Criado em</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td><code>@p.PedidoId.ToString()[..8]...</code></td>
+                <td>@p.CpfCliente</td>
+                <td>R$ @p.ValorTotal.ToString("F2")</td>
+                <td>@(p.MetodoPagamento >= 1 && p.MetodoPagamento <= metodoNomes.Length ? metodoNomes[p.MetodoPagamento - 1] : p.MetodoPagamento.ToString())</td>
+                <td>
+                    <span class="badge @(p.StatusPagamento == 3 ? "bg-success" : p.StatusPagamento == 4 || p.StatusPagamento == 5 ? "bg-danger" : "bg-warning text-dark")">
+                        @(p.StatusPagamento >= 1 && p.StatusPagamento <= statusNomes.Length ? statusNomes[p.StatusPagamento - 1] : p.StatusPagamento.ToString())
+                    </span>
+                </td>
+                <td>@p.CriadoEm.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Detalhes" asp-route-id="@p.PagamentoId" class="btn btn-sm btn-outline-primary">Detalhes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

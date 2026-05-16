@@ -1,0 +1,106 @@
+@model Ftec.ProjetosWeb.Pagamento.Web.Models.FreteViewModel
+@{
+    ViewData["Title"] = "Detalhes do Frete";
+    string[] statusNomes = { "Pendente", "Preparando", "Enviado", "Em Trânsito", "Entregue", "Cancelado" };
+    string statusNome = (Model.StatusEntrega >= 1 && Model.StatusEntrega <= statusNomes.Length) ? statusNomes[Model.StatusEntrega - 1] : Model.StatusEntrega.ToString();
+}
+
+<h2>Detalhes do Frete</h2>
+
+@if (TempData["Sucesso"] is not null)
+{
+    <div class="alert alert-success">@TempData["Sucesso"]</div>
+}
+@if (TempData["Erro"] is not null)
+{
+    <div class="alert alert-danger">@TempData["Erro"]</div>
+}
+
+<div class="card mb-4">
+    <div class="card-header fw-bold">Informações</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9"><code>@Model.IdFrete</code></dd>
+            <dt class="col-sm-3">Pedido</dt>
+            <dd class="col-sm-9"><code>@Model.PedidoId</code></dd>
+            <dt class="col-sm-3">Endereço Entrega</dt>
+            <dd class="col-sm-9"><code>@Model.EnderecoEntregaId</code></dd>
+            <dt class="col-sm-3">Endereço Entrega</dt>
+            <dd class="col-sm-9">
+                @Model.Logradouro, @Model.Numero
+                @if (!string.IsNullOrEmpty(Model.Complemento)) { <span>— @Model.Complemento</span> }
+                <br />
+                @Model.Bairro — @Model.Cidade / @Model.Estado &nbsp; <span class="text-muted">@Model.CepDestino</span>
+            </dd>
+            <dt class="col-sm-3">Transportadora</dt>
+            <dd class="col-sm-9">@Model.NomeTransportadora</dd>
+            <dt class="col-sm-3">Valor</dt>
+            <dd class="col-sm-9">R$ @Model.ValorFrete.ToString("F2")</dd>
+            <dt class="col-sm-3">Prazo</dt>
+            <dd class="col-sm-9">@Model.PrazoEntrega dias úteis</dd>
+            <dt class="col-sm-3">Código Rastreio</dt>
+            <dd class="col-sm-9">@(Model.CodigoRastreio ?? "-")</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.StatusEntrega == 5 ? "bg-success" : Model.StatusEntrega == 6 ? "bg-danger" : "bg-warning text-dark")">
+                    @statusNome
+                </span>
+            </dd>
+            <dt class="col-sm-3">Criado em</dt>
+            <dd class="col-sm-9">@Model.CriadoEm.ToString("dd/MM/yyyy HH:mm")</dd>
+            @if (Model.DataEnvio.HasValue)
+            {
+                <dt class="col-sm-3">Data Envio</dt>
+                <dd class="col-sm-9">@Model.DataEnvio.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+            }
+            @if (Model.DataEntrega.HasValue)
+            {
+                <dt class="col-sm-3">Data Entrega</dt>
+                <dd class="col-sm-9">@Model.DataEntrega.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<div class="d-flex gap-2 flex-wrap">
+    @if (Model.StatusEntrega == 1)
+    {
+        <form asp-action="Confirmar" method="post">
+            <input type="hidden" name="id" value="@Model.IdFrete" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Confirmar (Preparando)</button>
+        </form>
+        <form asp-action="Cancelar" method="post">
+            <input type="hidden" name="id" value="@Model.IdFrete" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Cancelar este frete?')">Cancelar</button>
+        </form>
+    }
+    @if (Model.StatusEntrega == 2)
+    {
+        <a asp-action="Enviar" asp-route-id="@Model.IdFrete" class="btn btn-info">Enviar (informar rastreio)</a>
+        <form asp-action="Cancelar" method="post">
+            <input type="hidden" name="id" value="@Model.IdFrete" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Cancelar este frete?')">Cancelar</button>
+        </form>
+    }
+    @if (Model.StatusEntrega == 3)
+    {
+        <form asp-action="EmTransito" method="post">
+            <input type="hidden" name="id" value="@Model.IdFrete" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-warning">Em Trânsito</button>
+        </form>
+    }
+    @if (Model.StatusEntrega == 4)
+    {
+        <form asp-action="Entregar" method="post">
+            <input type="hidden" name="id" value="@Model.IdFrete" />
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Marcar Entregue</button>
+        </form>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

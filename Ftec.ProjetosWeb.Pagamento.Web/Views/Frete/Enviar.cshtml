@@ -1,0 +1,27 @@
+﻿@model Ftec.ProjetosWeb.Pagamento.Web.Models.EnviarFreteViewModel
+@{
+    ViewData["Title"] = "Enviar Frete";
+    var id = ViewContext.RouteData.Values["id"];
+}
+
+<h2>Enviar Frete</h2>
+
+<div class="card" style="max-width:500px">
+    <div class="card-body">
+        <form asp-action="Enviar" asp-route-id="@id" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="CodigoRastreio" class="form-label">Código de Rastreio</label>
+                <input asp-for="CodigoRastreio" class="form-control" placeholder="ex: BR123456789BR" />
+                <span asp-validation-for="CodigoRastreio" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-info">Enviar</button>
+                <a asp-action="Detalhes" asp-route-id="@id" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

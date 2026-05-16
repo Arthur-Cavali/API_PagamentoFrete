@@ -1,0 +1,106 @@
+﻿@model Ftec.ProjetosWeb.Pagamento.Web.Models.CalcularFreteViewModel
+@{
+    ViewData["Title"] = "Calcular Frete";
+}
+
+<h2>Calcular Frete</h2>
+
+<div class="card" style="max-width:600px">
+    <div class="card-body">
+        <form asp-action="Calcular" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="PedidoId" class="form-label">ID do Pedido</label>
+                <div class="input-group">
+                    <input asp-for="PedidoId" id="pedidoIdInput" class="form-control" placeholder="00000000-0000-0000-0000-000000000000" />
+                    <button type="button" class="btn btn-outline-secondary" onclick="buscarPedido()">Buscar Pedido</button>
+                </div>
+                <span asp-validation-for="PedidoId" class="text-danger"></span>
+            </div>
+
+            <input asp-for="EnderecoEntregaId" type="hidden" />
+
+            <div class="mb-3">
+                <label asp-for="TransportadoraId" class="form-label">Transportadora</label>
+                <select asp-for="TransportadoraId" class="form-select">
+                    <option value="">-- Selecione --</option>
+                    @foreach (var t in (List<Ftec.ProjetosWeb.Pagamento.Web.Models.TransportadoraViewModel>)ViewBag.Transportadoras)
+                    {
+                        <option value="@t.TransportadoraId">@t.Nome (@t.CodigoServico)</option>
+                    }
+                </select>
+                <span asp-validation-for="TransportadoraId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">CEP Origem <span class="text-muted">(Centro de Distribuição)</span></label>
+                <input class="form-control" value="90000-000" readonly disabled />
+                <small class="text-muted">Fixo — configurado no servidor.</small>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CepDestino" class="form-label">CEP Destino</label>
+                <input asp-for="CepDestino" class="form-control" placeholder="00000-000" />
+                <small class="text-muted">Preenchido automaticamente ao buscar o pedido.</small>
+                <span asp-validation-for="CepDestino" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h6 class="mb-3 text-muted">Endereço de Entrega</h6>
+
+            <div class="row">
+                <div class="col-8 mb-3">
+                    <label asp-for="Logradouro" class="form-label">Logradouro</label>
+                    <input asp-for="Logradouro" class="form-control" placeholder="Rua, Avenida, Travessa..." />
+                    <span asp-validation-for="Logradouro" class="text-danger"></span>
+                </div>
+                <div class="col-4 mb-3">
+                    <label asp-for="Numero" class="form-label">Número</label>
+                    <input asp-for="Numero" class="form-control" placeholder="123" />
+                    <span asp-validation-for="Numero" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Complemento" class="form-label">Complemento <span class="text-muted">(opcional)</span></label>
+                <input asp-for="Complemento" class="form-control" placeholder="Apto, Bloco, Sala..." />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Bairro" class="form-label">Bairro</label>
+                <input asp-for="Bairro" class="form-control" />
+                <span asp-validation-for="Bairro" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-8 mb-3">
+                    <label asp-for="Cidade" class="form-label">Cidade</label>
+                    <input asp-for="Cidade" class="form-control" />
+                    <span asp-validation-for="Cidade" class="text-danger"></span>
+                </div>
+                <div class="col-4 mb-3">
+                    <label asp-for="Estado" class="form-label">Estado (UF)</label>
+                    <input asp-for="Estado" class="form-control" placeholder="RS" maxlength="2" style="text-transform:uppercase" />
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Calcular</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function buscarPedido() {
+        const id = document.getElementById('pedidoIdInput').value.trim();
+        if (!id) { alert('Digite o ID do pedido antes de buscar.'); return; }
+        window.location.href = '/Frete/BuscarPedido?pedidoId=' + id;
+    }
+</script>
+}

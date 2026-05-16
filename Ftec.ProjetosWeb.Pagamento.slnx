@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Aplicacao/">
+    <Project Path="Ftec.ProjetosWeb.Pagamento.Aplicacao/Ftec.ProjetosWeb.Pagamento.Aplicacao.csproj" />
+  </Folder>
+  <Folder Name="/Dominio/">
+    <Project Path="Ftec.ProjetosWeb.Pagamento.Dominio/Ftec.ProjetosWeb.Pagamento.Dominio.csproj" />
+  </Folder>
+  <Folder Name="/Persistencia/">
+    <Project Path="Ftec.ProjetosWeb.Pagamento.Persistencia/Ftec.ProjetosWeb.Pagamento.Persistencia.csproj" />
+    <Project Path="Ftec.ProjetosWeb.Pagamento.Repositorio.Test/Ftec.ProjetosWeb.Pagamento.Repositorio.Test.csproj" Id="80950745-2bb2-4fcf-869e-50601369d228" />
+  </Folder>
+  <Folder Name="/Servico/">
+    <Project Path="Ftec.ProjetosWeb.Pagamento.Api/Ftec.ProjetosWeb.Pagamento.Api.csproj" />
+  </Folder>
+  <Project Path="Ftec.ProjetosWeb.Pagamento.Web/Ftec.ProjetosWeb.Pagamento.Web.csproj" />
+</Solution>

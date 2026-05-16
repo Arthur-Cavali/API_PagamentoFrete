@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">Neurosky</h1>
+    <p class="lead">Microsserviço de Pagamento &amp; Frete</p>
+</div>
+
+<div class="row justify-content-center g-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">💳 Pagamentos</h5>
+                <p class="card-text">Crie e gerencie pagamentos, processe transações via gateway.</p>
+                <a asp-controller="Pagamento" asp-action="Index" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">📦 Fretes</h5>
+                <p class="card-text">Calcule fretes e acompanhe o fluxo de entrega do pedido.</p>
+                <a asp-controller="Frete" asp-action="Index" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">🚚 Transportadoras</h5>
+                <p class="card-text">Gerencie as transportadoras disponíveis para envio.</p>
+                <a asp-controller="Transportadora" asp-action="Index" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+</div>

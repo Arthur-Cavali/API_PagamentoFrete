@@ -1,0 +1,58 @@
+@model Ftec.ProjetosWeb.Pagamento.Web.Models.CriarTransportadoraViewModel
+@{
+    ViewData["Title"] = "Nova Transportadora";
+}
+
+<h2>Nova Transportadora</h2>
+
+<div class="card" style="max-width:500px">
+    <div class="card-body">
+        <form asp-action="Criar" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nome" class="form-label">Nome</label>
+                <input asp-for="Nome" class="form-control" placeholder="ex: Correios SEDEX" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CodigoServico" class="form-label">Código do Serviço</label>
+                <input asp-for="CodigoServico" class="form-control" placeholder="ex: SEDEX, PAC" />
+                <span asp-validation-for="CodigoServico" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="ValorBase" class="form-label">Valor Base (R$)</label>
+                    <input asp-for="ValorBase" class="form-control" type="number" step="0.01" min="0" />
+                    <span asp-validation-for="ValorBase" class="text-danger"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="ValorPorKg" class="form-label">Valor por Kg (R$)</label>
+                    <input asp-for="ValorPorKg" class="form-control" type="number" step="0.01" min="0" />
+                    <span asp-validation-for="ValorPorKg" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="PrazoMinDias" class="form-label">Prazo Mínimo (dias)</label>
+                    <input asp-for="PrazoMinDias" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="PrazoMinDias" class="text-danger"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="PrazoMaxDias" class="form-label">Prazo Máximo (dias)</label>
+                    <input asp-for="PrazoMaxDias" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="PrazoMaxDias" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

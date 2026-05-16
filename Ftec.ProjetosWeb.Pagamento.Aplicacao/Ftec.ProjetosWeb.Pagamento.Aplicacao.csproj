@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ftec.ProjetosWeb.Pagamento.Dominio\Ftec.ProjetosWeb.Pagamento.Dominio.csproj" />
+    <ProjectReference Include="..\Ftec.ProjetosWeb.Pagamento.Persistencia\Ftec.ProjetosWeb.Pagamento.Persistencia.csproj" />
+  </ItemGroup>
+
+</Project>
