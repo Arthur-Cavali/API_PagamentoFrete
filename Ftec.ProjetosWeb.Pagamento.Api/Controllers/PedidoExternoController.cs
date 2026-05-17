@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ftec.ProjetosWeb.Pagamento.Api.Controllers
 {
-    //[Route("api/pedido-externo")]
-    [Route("http://pedido.neurosky.com.br/api/pedido")]
+    [Route("api/pedido-externo")]
     [ApiController]
     public class PedidoExternoController : ControllerBase
     {
