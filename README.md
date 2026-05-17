@@ -11,11 +11,9 @@ O objetivo é oferecer uma interface clara e padronizada para que sistemas inter
 
 📦 Endpoints da API
 
-📝 Pedido Externo
-Base URL: http://pedido.neurosky.com.br/api/pedido
 
 🔍 Consultas de Pedido
-- GET /api/pedido/{pedidoId} → Retorna o valor total de um pedido externo.
+- GET /api/pedido-externo/{pedidoId} → Retorna o valor total de um pedido externo.
 {
   "pedidoId": "123e4567-e89b-12d3-a456-426614174000",
   "valorTotal": 250.00
@@ -23,7 +21,7 @@ Base URL: http://pedido.neurosky.com.br/api/pedido
 
 
 📍 Endereço de Entrega
-- GET /api/pedido/{pedidoId}/endereco → Retorna o endereço de entrega de um pedido externo.
+- GET /api/pedido-externo/{pedidoId}/endereco → Retorna o endereço de entrega de um pedido externo.
 {
   "cepDestino": "95000-000",
   "numero": "100"
