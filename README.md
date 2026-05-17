@@ -13,6 +13,7 @@ O objetivo é oferecer uma interface clara e padronizada para que sistemas inter
 
 📝 Pedido Externo
 Base URL: http://pedido.neurosky.com.br/api/pedido
+
 🔍 Consultas de Pedido
 - GET /api/pedido/{pedidoId} → Retorna o valor total de um pedido externo.
 {
@@ -32,6 +33,7 @@ Base URL: http://pedido.neurosky.com.br/api/pedido
 
 🚚 Frete
 Base URL: http://pagamento.neurosky.com.br/api/frete
+
 🔍 Consultas
 - GET /api/frete → Lista todos os fretes cadastrados.
 - GET /api/frete/{id} → Retorna os detalhes de um frete específico.
@@ -70,6 +72,7 @@ O frete segue o fluxo: Pendente → Preparando → Enviado → EmTransito → En
 
 💳 Pagamento
 Base URL: http://pagamento.neurosky.com.br/api/pagamento
+
 🔍 Consultas
 - GET /api/pagamento → Lista todos os pagamentos.
 - GET /api/pagamento/{id} → Retorna os detalhes de um pagamento.
@@ -105,6 +108,7 @@ Base URL: http://pagamento.neurosky.com.br/api/pagamento
 
 🚛 Transportadora
 Base URL: http://pagamento.neurosky.com.br/api/transportadora
+
 🔍 Consultas
 - GET /api/transportadora → Lista todas as transportadoras.
 - GET /api/transportadora/{id} → Retorna os detalhes de uma transportadora.
